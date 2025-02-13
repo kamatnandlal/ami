@@ -1,0 +1,74 @@
+pipeline:
+  name: Build CentOS AMI
+  identifier: Build_CentOS_AMI
+  projectIdentifier: your_project_id  # Replace with your Harness project ID
+  orgIdentifier: your_org_id  # Replace with your Harness organization ID
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: your_git_connector  # Replace with your Git connector ID
+        repoName: your_repo_name  # Replace with your Git repository name
+        build: <+input>
+  stages:
+    - stage:
+        name: Build AMI
+        identifier: Build_AMI
+        type: CI
+        spec:
+          cloneCodebase: true
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: your_k8s_connector  # Replace with your Kubernetes connector ID
+              namespace: harness-delegate-ng
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Install Packer
+                  identifier: Install_Packer
+                  spec:
+                    shell: Sh
+                    command: |
+                      wget https://releases.hashicorp.com/packer/1.8.6/packer_1.8.6_linux_amd64.zip
+                      unzip packer_1.8.6_linux_amd64.zip
+                      sudo mv packer /usr/local/bin/
+              - step:
+                  type: Run
+                  name: Validate Packer Template
+                  identifier: Validate_Packer_Template
+                  spec:
+                    shell: Sh
+                    command: |
+                      packer validate -var-file=value.pkr.hcl main.pkr.hcl
+              - step:
+                  type: Run
+                  name: Build AMI
+                  identifier: Build_AMI
+                  spec:
+                    shell: Sh
+                    command: |
+                      packer build -var-file=value.pkr.hcl main.pkr.hcl
+              - step:
+                  type: Run
+                  name: Store AMI ID
+                  identifier: Store_AMI_ID
+                  spec:
+                    shell: Sh
+                    command: |
+                      AMI_ID=$(jq -r '.builds[0].artifact_id' manifest.json)
+                      echo "AMI ID: $AMI_ID"
+                      echo "##vso[task.setvariable variable=AMI_ID]$AMI_ID"
+          sharedPaths:
+            - /var/run/docker.sock
+  variables:
+    - name: AWS_ACCESS_KEY_ID
+      type: Secret
+      value: your_aws_access_key_id  # Replace with your AWS access key secret ID
+    - name: AWS_SECRET_ACCESS_KEY
+      type: Secret
+      value: your_aws_secret_access_key  # Replace with your AWS secret key secret ID
