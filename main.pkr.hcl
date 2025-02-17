@@ -34,7 +34,7 @@ source "amazon-ebs" "centos" {
   region          = var.region
   source_ami      = var.source_ami
   ssh_username    = var.ssh_username
-  ssh_timeout     = "10m"
+  ssh_timeout     = "30m"
   tags = {
     Name        = "CentOS-AMI"
     Environment = "Production"
