@@ -16,7 +16,7 @@ variable "source_ami" {
 
 variable "ssh_username" {
   type    = string
-  default = "centos"
+  default = "harness"
 }
 # main.pkr.hcl
 packer {
