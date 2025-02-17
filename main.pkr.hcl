@@ -12,7 +12,7 @@ variable "subnet_id" {
 
 variable "security_group_id" {
   type    = string
-  default = "sg-05636b1f51c5e0f40"  
+  default = "sg-081a71df9061c224c"  
 }
 
 variable "region" {
