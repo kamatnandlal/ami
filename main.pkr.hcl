@@ -11,7 +11,7 @@ variable "instance_type" {
 
 variable "source_ami" {
   type    = string
-  default = "ami-00264e664c8ba2d93"  # Replace with the latest CentOS 7 AMI ID
+  default = "ami-073dfbfdb812d52f3"  # 
 }
 
 variable "ssh_username" {
