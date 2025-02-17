@@ -51,6 +51,7 @@ packer {
 source "amazon-ebs" "centos" {
   ami_name        = "centos-ami-{{timestamp}}"
   vpc_id          = var.vpc_id
+  key_pair_name    = var.key_name
   subnet_id       = var.subnet_id 
   security_group_id = var.security_group_id 
   instance_type   = var.instance_type
