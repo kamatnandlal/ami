@@ -1,4 +1,20 @@
 # value.pkr.hcl
+
+variable "vpc_id" {
+  type    = string
+  default = "vpc-0b1295ad659c4388e"  
+}
+
+variable "subnet_id" {
+  type    = string
+  default = "subnet-0d464670309d7fe52" 
+}
+
+variable "security_group_id" {
+  type    = string
+  default = "sg-05636b1f51c5e0f40"  
+}
+
 variable "region" {
   type    = string
   default = "us-east-1"
