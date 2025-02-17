@@ -4,6 +4,10 @@ variable "vpc_id" {
   type    = string
   default = "vpc-0b1295ad659c4388e"  
 }
+variable "key_name" {
+  type    = string
+  default = "harness"  
+}
 
 variable "subnet_id" {
   type    = string
