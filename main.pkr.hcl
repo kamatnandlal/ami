@@ -25,7 +25,7 @@ build {
   sources = ["source.amazon-ebs.centos"]
 
   provisioner "shell" {
-    script = "scripts/setup.sh"
+    script = "mango.sh"
   }
 
   post-processor "manifest" {
